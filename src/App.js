@@ -19,6 +19,7 @@ function App() {
             model: "gpt-3.5-turbo",
             messages: [{role: "user", content: question}]
         }).catch(e => {
+            setResponse('ошибка!')
             console.error(e)
         }).then(res => {
             setResponse(res.data.choices[0].message.content)

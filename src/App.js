@@ -26,11 +26,18 @@ function App() {
         })
     }
 
+    const enterKey = (e) => {
+        if(e.keyCode === 13){
+            e.preventDefault()
+            popAQuestion()
+        }
+    }
+
     return (
         <div className="App">
             <div className={'response_text'}>{response}</div>
             <div className={'question_block'}>
-                <Form.Control value={question} onChange={e => setQuestion(e.target.value)} className={'question_text'} placeholder={'Задай свой вопрос...'} type={'text'} as="textarea" size={"lg"} />
+                <Form.Control value={question} onKeyDown={e => enterKey(e)} onChange={e => setQuestion(e.target.value)} className={'question_text'} placeholder={'Задай свой вопрос...'} type={'text'} as="textarea" size={"lg"} />
                 <img onClick={popAQuestion} className={'vastex-img'} src="/vastex.jpg" width={33} height={33} alt=""/>
             </div>
         </div>

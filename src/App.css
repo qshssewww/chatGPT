@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;
+    font:inherit;vertical-align:baseline}
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
 html{height:100%}
 body{line-height:1}
@@ -15,6 +16,7 @@ body, #root, .App{
     height: 100%;
 }
 body{
+    background-color: #F5F5F5!important;
     padding: 0 20px;
 }
 .App{
@@ -35,13 +37,19 @@ body{
     margin-bottom: 30px;
     width: 100% !important;
 }
-.response_text{
+.response_block{
     font-size: 18px;
     margin-top: 30px;
+}
+.response_in-block{
+    display: flex;
+}
+.response_text{
+    margin-left: 20px;
 }
 .vastex-img{
     position: absolute;
     right: 40px;
-    bottom: 67px;
+    bottom: 74px;
     cursor: pointer;
 }

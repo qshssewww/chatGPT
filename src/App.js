@@ -12,7 +12,7 @@ function App() {
     const openai = new OpenAIApi(new Configuration({
         apiKey: process.env.REACT_APP_API_KEY
     }))
-
+    console.log(process.env.REACT_APP_API_KEY)
     const popAQuestion = () => {
         if(question.length > 0){
             setQuestion('')

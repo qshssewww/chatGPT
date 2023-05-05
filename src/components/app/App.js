@@ -3,11 +3,13 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import Form from 'react-bootstrap/Form';
 import {Configuration, OpenAIApi} from "openai"
+import Request from "../request/Request";
 
 function App() {
 
     const [question, setQuestion] = useState('')
-    const [response, setResponse] = useState('')
+    const [requestHistory, setRequestHistory] = useState([])
+    const [lastEnterPressTime, setLastEnterPressTime] = useState(0)
 
     useEffect(() => {
         if(!localStorage.getItem('apiKey')){
@@ -28,10 +30,13 @@ function App() {
                     model: "gpt-3.5-turbo",
                     messages: [{role: "user", content: question}]
                 }).catch(e => {
-                    setResponse('ошибка!')
+                    alert('ошибка загрузки!')
                     console.error(e)
                 }).then(res => {
-                    setResponse(res.data.choices[0].message.content)
+                    setRequestHistory([...requestHistory, {
+                        questionText: question,
+                        responseText: res.data.choices[0].message.content
+                    }])
                 })
             }
         }
@@ -40,26 +45,24 @@ function App() {
 
     const enterKey = (e) => {
         if(e.keyCode === 13){
-            e.preventDefault()
-            popAQuestion()
+            const currentTime = new Date().getTime();
+            if (currentTime - lastEnterPressTime < 650) {
+                e.preventDefault()
+                popAQuestion()
+            }
+            setLastEnterPressTime(currentTime)
         }
     }
 
     return (
-        <div className="App">
-            <div className={'response_block'}>
-                {
-                    response ?
-                        <div className={'response_in-block'}>
-                            <img src="/chatgpt-icon.svg" alt="123" width={34} height={34}/>
-                            <p className={'response_text'}>{response}</p>
-                        </div>
-                    :
-                    ''
-                }
-            </div>
+        <div style={requestHistory.length > 0 ? {justifyContent: "space-between"} : {justifyContent: "flex-end"}} className="App">
+            {
+                    requestHistory?.map((obj, i) => (
+                        <Request key={i} response={obj.responseText} question={obj.questionText}/>
+                    ))
+            }
             <div className={'question_block'}>
-                <Form.Control value={question} onKeyDown={e => enterKey(e)} onChange={e => setQuestion(e.target.value)} className={'question_text'} placeholder={localStorage.getItem('apiKey') ? 'Задай свой вопрос...': 'введите свой api ключ...'} type={'text'} as="textarea" size={"lg"} />
+                <Form.Control value={question} onKeyDown={e => enterKey(e)} onChange={e => setQuestion(e.target.value)} className={'question_area'} placeholder={localStorage.getItem('apiKey') ? 'Задай свой вопрос...': 'введите свой api ключ...'} type={'text'} as="textarea" size={"lg"} />
                 <svg onClick={popAQuestion} xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor"
                      className="vastex-img" viewBox="0 0 16 16">
                     <path

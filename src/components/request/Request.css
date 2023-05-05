@@ -1,0 +1,31 @@
+.request{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    font-size: 18px;
+}
+.response_block, .question{
+    width: 100%;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+.question p{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+}
+.response_block{
+    min-height: 73px;
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    border-top: 1px solid rgba(0,0,0,.08);
+    background-color: #F5F5F5
+}
+.response_text{
+    display: flex;
+    align-items: center;
+    margin: 0 0 0 20px;
+}

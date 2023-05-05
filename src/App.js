@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import Form from 'react-bootstrap/Form';
@@ -9,23 +9,33 @@ function App() {
     const [question, setQuestion] = useState('')
     const [response, setResponse] = useState('')
 
-    const openai = new OpenAIApi(new Configuration({
-        apiKey: process.env.REACT_APP_API_KEY
-    }))
-    console.log(process.env.REACT_APP_API_KEY)
-    const popAQuestion = () => {
-        if(question.length > 0){
-            setQuestion('')
-            openai.createChatCompletion({
-                model: "gpt-3.5-turbo",
-                messages: [{role: "user", content: question}]
-            }).catch(e => {
-                setResponse('ошибка!')
-                console.error(e)
-            }).then(res => {
-                setResponse(res.data.choices[0].message.content)
-            })
+    useEffect(() => {
+        if(!localStorage.getItem('apiKey')){
+            alert('введлите свой api ключ в поле ввода запроса')
         }
+    }, [])
+
+    const openai = new OpenAIApi(new Configuration({
+        apiKey: localStorage.getItem('apiKey')
+    }))
+
+    const popAQuestion = () => {
+        if(!localStorage.getItem('apiKey')){
+            localStorage.setItem('apiKey', question)
+        } else {
+            if(question.length > 0){
+                openai.createChatCompletion({
+                    model: "gpt-3.5-turbo",
+                    messages: [{role: "user", content: question}]
+                }).catch(e => {
+                    setResponse('ошибка!')
+                    console.error(e)
+                }).then(res => {
+                    setResponse(res.data.choices[0].message.content)
+                })
+            }
+        }
+        setQuestion('')
     }
 
     const enterKey = (e) => {
@@ -49,7 +59,7 @@ function App() {
                 }
             </div>
             <div className={'question_block'}>
-                <Form.Control value={question} onKeyDown={e => enterKey(e)} onChange={e => setQuestion(e.target.value)} className={'question_text'} placeholder={'Задай свой вопрос...'} type={'text'} as="textarea" size={"lg"} />
+                <Form.Control value={question} onKeyDown={e => enterKey(e)} onChange={e => setQuestion(e.target.value)} className={'question_text'} placeholder={localStorage.getItem('apiKey') ? 'Задай свой вопрос...': 'введите свой api ключ...'} type={'text'} as="textarea" size={"lg"} />
                 <svg onClick={popAQuestion} xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor"
                      className="vastex-img" viewBox="0 0 16 16">
                     <path

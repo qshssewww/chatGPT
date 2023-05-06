@@ -15,26 +15,29 @@ body, #root, .App{
     height: 100%;
 }
 .App{
+    overflow-x: hidden;
     padding: 0 20px;
     flex-direction: column;
     display: flex;
     align-items: center;
 }
 .question_block{
+    position: relative;
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
 }
 .question_area{
     height: 12%;
     font-size: 20px;
     resize: none;
-    margin-bottom: 20px;
+    margin: 8px 0;
     width: 100% !important;
 }
 .vastex-img{
     position: absolute;
-    right: 40px;
-    bottom: 64px;
+    right: 20px;
+    bottom: 36px;
     cursor: pointer;
 }

@@ -6,17 +6,14 @@
     width: 100vw;
     font-size: 18px;
 }
-.response_block, .question{
+.response_block{
     width: 100%;
     padding: 1.5rem;
     display: flex;
     justify-content: center;
 }
-.question p{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin: 0;
+.question{
+    background-color: white!important;
 }
 .response_block{
     min-height: 73px;

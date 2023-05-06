@@ -15,7 +15,13 @@ function App() {
         if(!localStorage.getItem('apiKey')){
             alert('введлите свой api ключ в поле ввода запроса')
         }
+        const persistedValue = JSON.parse(localStorage.getItem('requestHistory'));
+        setRequestHistory(persistedValue?.length ? (persistedValue) : [])
     }, [])
+
+    useEffect(() => {
+        localStorage.setItem('requestHistory', JSON.stringify(requestHistory))
+    }, [requestHistory])
 
     const openai = new OpenAIApi(new Configuration({
         apiKey: localStorage.getItem('apiKey')
@@ -25,6 +31,11 @@ function App() {
         if(!localStorage.getItem('apiKey')){
             localStorage.setItem('apiKey', question)
         } else {
+            if(requestHistory.length === 10){
+                let arr = requestHistory
+                arr.shift()
+                setRequestHistory(arr)
+            }
             if(question.length > 0){
                 openai.createChatCompletion({
                     model: "gpt-3.5-turbo",
@@ -56,11 +67,13 @@ function App() {
 
     return (
         <div style={requestHistory.length > 0 ? {justifyContent: "space-between"} : {justifyContent: "flex-end"}} className="App">
-            {
+            <div className={'requestHistory'}>
+                {
                     requestHistory?.map((obj, i) => (
                         <Request key={i} response={obj.responseText} question={obj.questionText}/>
                     ))
-            }
+                }
+            </div>
             <div className={'question_block'}>
                 <Form.Control value={question} onKeyDown={e => enterKey(e)} onChange={e => setQuestion(e.target.value)} className={'question_area'} placeholder={localStorage.getItem('apiKey') ? 'Задай свой вопрос...': 'введите свой api ключ...'} type={'text'} as="textarea" size={"lg"} />
                 <svg onClick={popAQuestion} xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor"

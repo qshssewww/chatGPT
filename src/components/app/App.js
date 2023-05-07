@@ -11,11 +11,12 @@ function App() {
     const [requestHistory, setRequestHistory] = useState([])
     const [lastEnterPressTime, setLastEnterPressTime] = useState(0)
 
+    const persistedValue = JSON.parse(localStorage.getItem('requestHistory'));
+
     useEffect(() => {
         if(!localStorage.getItem('apiKey')){
             alert('введлите свой api ключ в поле ввода запроса')
         }
-        const persistedValue = JSON.parse(localStorage.getItem('requestHistory'));
         setRequestHistory(persistedValue?.length ? (persistedValue) : [])
     }, [])
 
@@ -37,9 +38,16 @@ function App() {
                 setRequestHistory(arr)
             }
             if(question.length > 0){
+                let questions = ''
+                for(let i = 0; i < persistedValue.length; i++){
+                    questions += persistedValue[i].questionText
+                }
                 openai.createChatCompletion({
                     model: "gpt-3.5-turbo",
-                    messages: [{role: "user", content: question}]
+                    messages: [
+                        {role: "system", content: questions},
+                        {role: "user", content: question}
+                    ]
                 }).catch(e => {
                     alert('ошибка загрузки!')
                     console.error(e)

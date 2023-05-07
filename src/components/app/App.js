@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Form from 'react-bootstrap/Form';
 import {Configuration, OpenAIApi} from "openai"
 import Request from "../request/Request";
+import {Button} from "react-bootstrap";
 
 function App() {
 
@@ -75,6 +76,12 @@ function App() {
 
     return (
         <div style={requestHistory.length > 0 ? {justifyContent: "space-between"} : {justifyContent: "flex-end"}} className="App">
+            <div className={'resetHistory'}>
+                <Button onClick={() => {
+                    localStorage.removeItem('requestHistory')
+                    setRequestHistory([])
+                }} variant="outline-secondary">Clear request history</Button>
+            </div>
             <div className={'requestHistory'}>
                 {
                     requestHistory?.map((obj, i) => (
@@ -83,7 +90,7 @@ function App() {
                 }
             </div>
             <div className={'question_block'}>
-                <Form.Control value={question} onKeyDown={e => enterKey(e)} onChange={e => setQuestion(e.target.value)} className={'question_area'} placeholder={localStorage.getItem('apiKey') ? 'Задай свой вопрос...': 'введите свой api ключ...'} type={'text'} as="textarea" size={"lg"} />
+                <Form.Control value={question} onKeyDown={e => enterKey(e)} onChange={e => setQuestion(e.target.value)} className={'question_area'} placeholder={localStorage.getItem('apiKey') ? 'Ask your question...': 'Enter your api key...'} type={'text'} as="textarea" size={"lg"} />
                 <svg onClick={popAQuestion} xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor"
                      className="vastex-img" viewBox="0 0 16 16">
                     <path

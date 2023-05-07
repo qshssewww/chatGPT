@@ -15,8 +15,9 @@ body, #root, .App{
     height: 100%;
 }
 .App{
+    position: relative;
     overflow-x: hidden;
-    padding: 0 20px;
+    padding: 0 1.25rem;
     flex-direction: column;
     display: flex;
     align-items: center;
@@ -35,10 +36,15 @@ body, #root, .App{
     margin: 8px 0;
     width: 100% !important;
 }
-.vastex-img{
+.resetHistory{
     position: absolute;
     right: 20px;
-    bottom: 36px;
+    top: 20px;
+}
+.vastex-img{
+    position: absolute;
+    right: 1.25rem;
+    bottom: 2.3rem;
     cursor: pointer;
 }
 @media (max-width: 992px) {

@@ -41,3 +41,13 @@ body, #root, .App{
     bottom: 36px;
     cursor: pointer;
 }
+@media (max-width: 992px) {
+    html{
+        font-size: 14px;
+    }
+}
+@media (max-width: 576px) {
+    html{
+        font-size: 12px;
+    }
+}
